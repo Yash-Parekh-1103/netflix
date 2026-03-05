@@ -1,14 +1,18 @@
 'use client'
 
 import { addMovie } from "@/Actions/movieAction"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { Movie, NewMovie } from "@/db/schema"
 import { useCurrentUser } from "@/hooks/useUser"
-import { useForm, SubmitHandler } from "react-hook-form"
+import { useRouter } from "next/navigation"
+import { useForm } from "react-hook-form"
 
 
 const page = () => {
     
     const {email , isLoaded} = useCurrentUser()
+    const router =  useRouter()
     
     const {
     register,
@@ -22,17 +26,17 @@ const page = () => {
 
     if(!email) return 
 
-    console.log(data);
+    // console.log(data);
 
     const newData = {...data, email}
 
-    console.log(newData);
+    // console.log(newData);
 
     const newmovie = await addMovie(newData)
 
-    
-    
-    
+    router.replace("/movies")
+
+
   }
 
 
@@ -41,24 +45,20 @@ const page = () => {
         
          <form onSubmit={handleSubmit(newMovie)}>
 
-      <input {...register("name", { required: true })} placeholder="Name" className="border" />
+      <Input {...register("name", { required: true })} placeholder="Name" className="border" />
       {errors.name && <span>This field is required</span>}
 
-      <input {...register("genre", { required: true })} placeholder="Genre" className="border" />
+      <Input {...register("genre", { required: true })} placeholder="Genre" className="border" />
       {errors.genre && <span>This field is required</span>}
 
-      <input {...register("image", { required: true })} placeholder="Image URL" className="border" />
+      <Input {...register("image", { required: true })} placeholder="Image URL" className="border" />
       {errors.image && <span>This field is required</span>}
 
-      <input {...register("description", { required: true })} placeholder="Description" className="border" />
+      <Input {...register("description", { required: true })} placeholder="Description" className="border" />
       {errors.description && <span>This field is required</span>}
 
-      <input type="submit" />
+      <Button type="submit" variant="outline">submit</Button>
     </form>
-
-
-
-
 
     </div>
   )
