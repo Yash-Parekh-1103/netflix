@@ -2,6 +2,7 @@
 
 import { movieTable, NewMovie } from "@/db/schema"
 import { db } from ".."
+import { eq } from "drizzle-orm"
 
 //backend to add new movie
 
@@ -11,7 +12,7 @@ export const addMovie = async (data:NewMovie) => {
 
     // console.log(data);
 
-    return {msg:"Movie Added Successfully"}
+    return {msg:"Movie Added Successfully"};
        
 }
 
@@ -26,9 +27,21 @@ export const fetchAllMovies = async () => {
     // now we log this on backend terminal
     // console.log(allmovies);
 
-    return allmovies
+    return allmovies;
+  
+}
 
-    
+//show single movie
+
+export const fetchSingleMovie = async (id:number) => {
+
+ const singleMovie = await db.select().from(movieTable).where(eq(movieTable.id,id))
+
+ console.log(singleMovie);
+
+ return singleMovie;
+ 
+
     
 }
 
